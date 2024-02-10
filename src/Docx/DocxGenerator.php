@@ -17,6 +17,7 @@ namespace Markocupic\MathbuchLearningObjectives\Docx;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Markocupic\MathbuchLearningObjectives\Config\MathbuchAhLevel;
+use Markocupic\MathbuchLearningObjectives\Model\MathbuchChaptersModel;
 use Markocupic\PhpOffice\PhpWord\MsWordTemplateProcessor;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -53,15 +54,20 @@ readonly class DocxGenerator
 
         foreach ($arrChapters as $i => $chapter) {
             $index_outer = $i + 1;
+
+            $chapterAlias = sprintf('mb%s_LU%s', $volume, $chapter);
+            $chapterTitle = $this->connection->fetchOne('SELECT title FROM tl_mathbuch_chapters WHERE alias = ?',[$chapterAlias]);
+
             $objPhpWord->setValue('volume_#'.$index_outer, $this->translator->trans('MSC.mathbuch_volumes.'.$volume, [], 'contao_default'), 1);
             $objPhpWord->setValue('chapter_#'.$index_outer, $chapter, 1);
+            $objPhpWord->setValue('chapter_title_#'.$index_outer, $chapterTitle, 1);
             $objPhpWord->setValue('level_ah_#'.$index_outer, $this->translator->trans('MSC.ah_level.'.$level, [], 'contao_default'), 1);
 
             // Load objectives of the current chapter from database
             $arrObjectives = $this->getObjectives($volume, $chapter, $level);
 
             if (empty($arrObjectives)) {
-                throw new \LogicException(sprintf('This point should not be reached. We do not clone a page, if a chapter has no objectives. Volume: %s Chapter: %s', $volume, $chapter));
+                throw new \LogicException(sprintf('This point should never be reached. We do not clone a page, if a chapter has no objectives. Volume: %s Chapter: %s', $volume, $chapter));
             }
 
             $arrBasicObjectives = [];
@@ -97,7 +103,7 @@ readonly class DocxGenerator
 
                 foreach ($arrBasicObjectives as $ii => $objective) {
                     $index_inner = $ii + 1;
-                    $objPhpWord->setValue('objective_text_#'.$index_outer.'#'.$index_inner, $objective, 1);
+                    $objPhpWord->setValue('objective_text_#'.$index_outer.'#'.$index_inner, $this->formatMultilineText($objective), 1);
                 }
             }
 
@@ -109,7 +115,7 @@ readonly class DocxGenerator
 
                 foreach ($arrExtendedObjectives as $ii => $objective) {
                     $index_inner = $ii + 1;
-                    $objPhpWord->setValue('objective_text_extended_#'.$index_outer.'#'.$index_inner, $objective, 1);
+                    $objPhpWord->setValue('objective_text_extended_#'.$index_outer.'#'.$index_inner, $this->formatMultilineText($objective), 1);
                 }
             }
         }
@@ -143,11 +149,7 @@ readonly class DocxGenerator
     }
 
     /**
-     * @param string $volume
-     * @param int $chapter
-     * @param string $level
-     * @return array
-     * @throws \Doctrine\DBAL\Exception
+     * @throws Exception
      */
     private function getObjectives(string $volume, int $chapter, string $level): array
     {
@@ -169,12 +171,17 @@ readonly class DocxGenerator
 
         $qb->orderBy('t.volume', 'ASC');
         $qb->orderBy('t.chapter', 'ASC');
+        $qb->addOrderBy('t.id', 'ASC');
         $qb->addOrderBy('t.level_basic', 'ASC');
         $qb->addOrderBy('t.level_plus', 'ASC');
         $qb->addOrderBy('t.extended_objective_basic', 'ASC');
         $qb->addOrderBy('t.extended_objective_plus', 'ASC');
-        $qb->addOrderBy('t.id', 'ASC');
 
         return $qb->fetchAllAssociative();
+    }
+
+    private function formatMultilineText(string $text): string
+    {
+        return preg_replace('~\R~u', '</w:t><w:br/><w:t>', $text);
     }
 }

@@ -23,6 +23,12 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
     'config'      => [
         'dataContainer'    => DC_Table::class,
         'enableVersioning' => true,
+        'closed'           => true,
+        'notEditable'      => true,
+        'notDeletable'     => true,
+        'notSortable'      => true,
+        'notCopyable'      => true,
+        'notCreatable'     => true,
         'sql'              => [
             'keys' => [
                 'id' => 'primary',
@@ -70,7 +76,7 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
     ],
     'palettes'    => [
         '__selector__' => ['addSubpalette'],
-        'default'      => '{basic_legend},volume,chapter;{level_legend},level_basic,level_plus,extended_objective_basic,extended_objective_plus;{objective_text_legend},objective_text',
+        'default'      => '{basic_legend},volume,belongs_to_chapter,chapter;{basic_objectives_legend},level_basic,level_plus;{extended_objectives_legend},extended_objective_basic,extended_objective_plus;{objective_text_legend},objective_text',
     ],
     'subpalettes' => [
         'addSubpalette' => 'textareaField',
@@ -100,10 +106,19 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
             'search'    => true,
             'filter'    => true,
             'sorting'   => true,
-            'options'   => range(1, 30),
+            'options'   => range(1, 32),
             'flag'      => DataContainer::SORT_INITIAL_LETTER_ASC,
             'eval'      => ['mandatory' => true, 'maxlength' => 2, 'tl_class' => 'w50'],
             'sql'       => "integer(2) NOT NULL default 0",
+        ],
+        'belongs_to_chapter'       => [
+            'exclude'    => true,
+            'search'     => true,
+            'inputType'  => 'select',
+            'foreignKey' => 'tl_mathbuch_chapters.alias',
+            'eval'       => ['includeBlankOption' => true, 'tl_class' => 'w50'],
+            'sql'        => "int(10) unsigned NOT NULL default '0'",
+            'relation'   => ['type' => 'hasOne', 'load' => 'lazy'],
         ],
         'level_basic'              => [
             'inputType' => 'checkbox',

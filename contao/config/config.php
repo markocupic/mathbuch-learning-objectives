@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of mathbuch-learning-objectives.
  *
@@ -10,12 +12,19 @@
  * @link https://github.com/markocupic/mathbuch-learning-objectives
  */
 
-use Markocupic\MathbuchLearningObjectives\Model\MathbuchLearningObjectivesModel;
 use Markocupic\MathbuchLearningObjectives\Controller\MathbuchObjectiveDocxExportController;
+use Markocupic\MathbuchLearningObjectives\Model\MathbuchLearningObjectivesModel;
+use Markocupic\MathbuchLearningObjectives\Model\MathbuchChaptersModel;
 
-/**
+/*
  * Backend modules
  */
+
+
+$GLOBALS['BE_MOD'][MathbuchObjectiveDocxExportController::BACKEND_MODULE_CATEGORY]['mathbuch_chapters'] = [
+    'tables' => ['tl_mathbuch_chapters'],
+];
+
 $GLOBALS['BE_MOD'][MathbuchObjectiveDocxExportController::BACKEND_MODULE_CATEGORY]['mathbuch_lernziele'] = [
     'tables' => ['tl_mathbuch_learning_objectives'],
 ];
@@ -24,7 +33,8 @@ $GLOBALS['BE_MOD'][MathbuchObjectiveDocxExportController::BACKEND_MODULE_CATEGOR
     'hideInNavigation' => true,
 ];
 
-/**
+/*
  * Models
  */
 $GLOBALS['TL_MODELS']['tl_mathbuch_learning_objectives'] = MathbuchLearningObjectivesModel::class;
+$GLOBALS['TL_MODELS']['tl_mathbuch_chapters'] = MathbuchChaptersModel::class;

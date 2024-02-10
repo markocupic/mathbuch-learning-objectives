@@ -25,11 +25,12 @@ $GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['copy'] = 'Kompetenz mit 
 $GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['delete'] = 'Kompetenz mit ID: %s löschen';
 $GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['show'] = 'Kompetenz mit ID: %s ansehen';
 
-/**
+/*
  * Legends
  */
 $GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['basic_legend'] = 'Basis Einstellungen';
-$GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['level_legend'] = 'Niveau Einstellungen';
+$GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['basic_objectives_legend'] = 'Grundkompetenzen';
+$GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['extended_objectives_legend'] = 'Zusatzkompetenzen';
 $GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['objective_text_legend'] = 'Kompetenz erfassen';
 
 /*
@@ -39,7 +40,7 @@ $GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['volume'] = ['Mathbuch Ba
 $GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['chapter'] = ['Lernumgebung auswählen', 'Wählen Sie die Lernumgebung aus.'];
 $GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['level'] = ['AH Level auswählen', 'Wählen Sie das AH Level aus.'];
 $GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['objective_text'] = ['Kompetenz', 'Fügen Sie eine Kompetenz hinzu.'];
-$GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['level_basic'] = ['Entspricht einer Grundkompetenz mit Niveau AH', 'Geben Sie an, ob die Kompetenz dem Niveau AH entspricht.'];
-$GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['level_plus'] = ['Entspricht einer Grundkompetenz mit Niveau AH+', 'Geben Sie an, ob die Kompetenz dem Niveau AH+ entspricht.'];
-$GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['extended_objective_basic'] = ['Entspricht einer Zusatzkompetenz mit Niveau AH', 'Geben Sie an, ob es sich um eine Zusatzkompetenz im Niveau AH handelt.'];
-$GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['extended_objective_plus'] = ['Entspricht einer Zusatzkompetenz mit Niveau AH+', 'Geben Sie an, ob es sich um eine Zusatzkompetenz im Niveau AH+ handelt.'];
+$GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['level_basic'] = ['Ich kann... (Grundkompetenz Niveau AH)', 'Geben Sie an, ob die Grundkompetenz dem Niveau AH entspricht.'];
+$GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['level_plus'] = ['Ich kann... (Grundkompetenz Niveau AH+)', 'Geben Sie an, ob die Grundkompetenz dem Niveau AH+ entspricht.'];
+$GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['extended_objective_basic'] = ['Zusätzlich kann ich... (Zusatzkompetenz Niveau AH)', 'Geben Sie an, ob die Zusatzkompetenz dem Niveau AH entspricht.'];
+$GLOBALS['TL_LANG']['tl_mathbuch_learning_objectives']['extended_objective_plus'] = ['Zusätzlich kann ich... (Zusatzkompetenz Niveau AH+)', 'Geben Sie an, ob die Zusatzkompetenz dem Niveau AH+ entspricht.'];

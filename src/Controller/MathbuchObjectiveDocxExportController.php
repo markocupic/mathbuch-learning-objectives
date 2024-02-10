@@ -23,10 +23,10 @@ use Contao\CoreBundle\Security\ContaoCorePermissions;
 use Contao\Message;
 use Contao\System;
 use Markocupic\MathbuchLearningObjectives\Docx\DocxGenerator;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[Route('/%contao.backend.route_prefix%/'.self::BACKEND_MODULE_TYPE, name: self::class, defaults: ['_scope' => 'backend'])]

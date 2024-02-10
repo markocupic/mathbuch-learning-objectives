@@ -1,0 +1,4 @@
+# config/routes.yaml
+markocupic_mathbuch_learning_objectives.controller:
+    resource: ../src/Controller
+    type: annotation

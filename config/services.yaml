@@ -1,0 +1,13 @@
+# config/services.yaml
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $projectDir: '%kernel.project_dir%'
+
+    Markocupic\MathbuchLearningObjectives\:
+        resource: ../src/
+        exclude: ../src/{DependencyInjection,Model,Config}
+

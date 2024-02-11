@@ -12,8 +12,9 @@ declare(strict_types=1);
  * @link https://github.com/markocupic/mathbuch-learning-objectives
  */
 
-use Contao\DataContainer;
 use Contao\DC_Table;
+use Contao\DataContainer;
+use Doctrine\DBAL\Types\Types;
 use Markocupic\MathbuchLearningObjectives\Config\MathbuchVolume;
 
 /**
@@ -79,10 +80,22 @@ $GLOBALS['TL_DCA']['tl_mathbuch_chapters'] = [
     ],
     'fields'   => [
         'id'     => [
-            'sql' => "int(10) unsigned NOT NULL auto_increment",
+            'sql' => [
+                'type'          => Types::INTEGER,
+                'length'        => 10,
+                'unsigned'      => true,
+                'notnull'       => true,
+                'autoincrement' => true,
+            ],
         ],
         'tstamp' => [
-            'sql' => "int(10) unsigned NOT NULL default '0'",
+            'sql' => [
+                'type'     => Types::INTEGER,
+                'length'   => 10,
+                'unsigned' => true,
+                'notnull'  => true,
+                'default'  => 0,
+            ],
         ],
         'alias'  => [
             'inputType' => 'text',
@@ -92,7 +105,12 @@ $GLOBALS['TL_DCA']['tl_mathbuch_chapters'] = [
             'sorting'   => true,
             'flag'      => DataContainer::SORT_INITIAL_LETTER_ASC,
             'eval'      => ['mandatory' => true, 'maxlength' => 13, 'tl_class' => 'w50'],
-            'sql'       => "varchar(13) NOT NULL default ''",
+            'sql'       => [
+                'type'    => Types::STRING,
+                'length'  => 13,
+                'notnull' => true,
+                'default' => '',
+            ],
         ],
         'title'  => [
             'inputType' => 'text',
@@ -101,7 +119,12 @@ $GLOBALS['TL_DCA']['tl_mathbuch_chapters'] = [
             'filter'    => true,
             'sorting'   => true,
             'eval'      => ['mandatory' => true, 'maxlength' => 512, 'tl_class' => 'w50'],
-            'sql'       => "varchar(512) NOT NULL default ''",
+            'sql'       => [
+                'type'    => Types::STRING,
+                'length'  => 512,
+                'notnull' => true,
+                'default' => '',
+            ],
         ],
         'number' => [
             'inputType' => 'select',
@@ -112,7 +135,12 @@ $GLOBALS['TL_DCA']['tl_mathbuch_chapters'] = [
             'options'   => range(1, 32),
             'flag'      => DataContainer::SORT_INITIAL_LETTER_ASC,
             'eval'      => ['mandatory' => true, 'maxlength' => 2, 'tl_class' => 'w50'],
-            'sql'       => "integer(2) NOT NULL default 0",
+            'sql'       => [
+                'type'    => Types::INTEGER,
+                'length'  => 2,
+                'notnull' => true,
+                'default' => 0,
+            ],
         ],
         'volume' => [
             'inputType' => 'select',
@@ -124,7 +152,12 @@ $GLOBALS['TL_DCA']['tl_mathbuch_chapters'] = [
             'reference' => &$GLOBALS['TL_LANG']['MSC']['mathbuch_volumes'],
             'flag'      => DataContainer::SORT_INITIAL_LETTER_ASC,
             'eval'      => ['mandatory' => true, 'maxlength' => 6, 'tl_class' => 'w50'],
-            'sql'       => "varchar(6) NOT NULL default ''",
+            'sql'       => [
+                'type'    => Types::STRING,
+                'length'  => 6,
+                'notnull' => true,
+                'default' => '',
+            ],
         ],
     ],
 ];

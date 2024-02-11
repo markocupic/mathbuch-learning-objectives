@@ -12,8 +12,9 @@ declare(strict_types=1);
  * @link https://github.com/markocupic/mathbuch-learning-objectives
  */
 
-use Contao\DataContainer;
 use Contao\DC_Table;
+use Contao\DataContainer;
+use Doctrine\DBAL\Types\Types;
 use Markocupic\MathbuchLearningObjectives\Config\MathbuchVolume;
 
 /**
@@ -76,14 +77,25 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
     ],
     'palettes'    => [
         '__selector__' => ['addSubpalette'],
-        'default'      => '{basic_legend},volume,belongs_to_chapter,chapter;{basic_objectives_legend},level_basic,level_plus;{extended_objectives_legend},extended_objective_basic,extended_objective_plus;{objective_text_legend},objective_text',
+        'default'      => '
+        {basic_legend},volume,belongs_to_chapter,chapter;
+        {basic_objectives_legend},level_basic,level_plus;
+        {extended_objectives_legend},extended_objective_basic,extended_objective_plus;
+        {objective_text_legend},objective_text
+        ',
     ],
     'subpalettes' => [
         'addSubpalette' => 'textareaField',
     ],
     'fields'      => [
         'id'                       => [
-            'sql' => "int(10) unsigned NOT NULL auto_increment",
+            'sql' => [
+                'type'          => Types::INTEGER,
+                'length'        => 10,
+                'unsigned'      => true,
+                'notnull'       => true,
+                'autoincrement' => true,
+            ],
         ],
         'tstamp'                   => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
@@ -98,7 +110,12 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
             'reference' => &$GLOBALS['TL_LANG']['MSC']['mathbuch_volumes'],
             'flag'      => DataContainer::SORT_INITIAL_LETTER_ASC,
             'eval'      => ['mandatory' => true, 'maxlength' => 6, 'tl_class' => 'w50'],
-            'sql'       => "varchar(32) NOT NULL default ''",
+            'sql'       => [
+                'type'    => Types::STRING,
+                'length'  => 32,
+                'notnull' => true,
+                'default' => '',
+            ],
         ],
         'belongs_to_chapter'       => [
             'exclude'    => true,
@@ -109,7 +126,13 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
             'inputType'  => 'select',
             'foreignKey' => 'tl_mathbuch_chapters.alias',
             'eval'       => ['mandatory' => true, 'tl_class' => 'w50'],
-            'sql'        => "int(10) unsigned NOT NULL default '0'",
+            'sql'        => [
+                'type'     => Types::INTEGER,
+                'length'   => 10,
+                'unsigned' => true,
+                'notnull'  => true,
+                'default'  => 0,
+            ],
             'relation'   => ['type' => 'hasOne', 'load' => 'lazy'],
         ],
         'level_basic'              => [
@@ -120,7 +143,13 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
             'sorting'   => true,
             'flag'      => DataContainer::SORT_INITIAL_LETTER_ASC,
             'eval'      => ['mandatory' => false, 'tl_class' => 'w50'],
-            'sql'       => "char(1) NOT NULL default ''",
+            'sql'       => [
+                'type'    => Types::STRING,
+                'length'  => 1,
+                'fixed'   => true,
+                'notnull' => true,
+                'default' => '',
+            ],
         ],
         'level_plus'               => [
             'inputType' => 'checkbox',
@@ -130,7 +159,13 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
             'sorting'   => true,
             'flag'      => DataContainer::SORT_INITIAL_LETTER_ASC,
             'eval'      => ['mandatory' => false, 'tl_class' => 'w50'],
-            'sql'       => "char(1) NOT NULL default ''",
+            'sql'       => [
+                'type'    => Types::STRING,
+                'length'  => 1,
+                'fixed'   => true,
+                'notnull' => true,
+                'default' => '',
+            ],
         ],
         'extended_objective_basic' => [
             'inputType' => 'checkbox',
@@ -140,7 +175,13 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
             'sorting'   => true,
             'flag'      => DataContainer::SORT_INITIAL_LETTER_ASC,
             'eval'      => ['mandatory' => false, 'tl_class' => 'w50'],
-            'sql'       => "char(1) NOT NULL default ''",
+            'sql'       => [
+                'type'    => Types::STRING,
+                'length'  => 1,
+                'fixed'   => true,
+                'notnull' => true,
+                'default' => '',
+            ],
         ],
         'extended_objective_plus'  => [
             'inputType' => 'checkbox',
@@ -150,13 +191,22 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
             'sorting'   => true,
             'flag'      => DataContainer::SORT_INITIAL_LETTER_ASC,
             'eval'      => ['mandatory' => false, 'tl_class' => 'w50'],
-            'sql'       => "char(1) NOT NULL default ''",
+            'sql'       => [
+                'type'    => Types::STRING,
+                'length'  => 1,
+                'fixed'   => true,
+                'notnull' => true,
+                'default' => '',
+            ],
         ],
         'objective_text'           => [
             'search'    => true,
             'inputType' => 'textarea',
             'eval'      => ['mandatory' => true, 'basicEntities' => true, 'helpwizard' => true],
-            'sql'       => "mediumtext NULL",
+            'sql'       => [
+                'type'    => Types::TEXT,
+                'notnull' => false,
+            ],
         ],
     ],
 ];

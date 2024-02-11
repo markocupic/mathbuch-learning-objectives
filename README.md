@@ -2,6 +2,6 @@
 
 
 # Kompetenzen mathbuch
-Contao Modul, um sich die mathbuch Kompetenzen als Worddatei herunterzuladen-
+Contao CMS Backend-Modul, um sich die mathbuch Kompetenzen als Worddatei herunterzuladen.
 
 ![Alt text](docs/docx.png?raw=true "mathbuch Kompetenzen")

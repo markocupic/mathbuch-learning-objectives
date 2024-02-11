@@ -17,7 +17,6 @@ namespace Markocupic\MathbuchLearningObjectives\Docx;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
 use Markocupic\MathbuchLearningObjectives\Config\MathbuchAhLevel;
-use Markocupic\MathbuchLearningObjectives\Model\MathbuchChaptersModel;
 use Markocupic\PhpOffice\PhpWord\MsWordTemplateProcessor;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -37,7 +36,7 @@ readonly class DocxGenerator
         // Create phpword instance
         $objPhpWord = new MsWordTemplateProcessor($template->getRealPath(), $targetPath);
 
-        $arrChapters = $this->getChapters($volume, $level);
+        $arrChapters = $this->getChapters($volume);
 
         $countChapters = \count($arrChapters);
 
@@ -52,24 +51,23 @@ readonly class DocxGenerator
         $objPhpWord->setValue('volume', $this->translator->trans('MSC.mathbuch_volumes.'.$volume, [], 'contao_default'), 1);
         $objPhpWord->setValue('level_ah', $this->translator->trans('MSC.ah_level.'.$level, [], 'contao_default'), 1);
 
-        foreach ($arrChapters as $i => $chapter) {
-            $index_outer = $i + 1;
+        $index_outer = 0;
 
-            $chapterAlias = sprintf('mb%s_LU%s', $volume, $chapter);
-            $chapterTitle = $this->connection->fetchOne('SELECT title FROM tl_mathbuch_chapters WHERE alias = ?',[$chapterAlias]);
+        foreach ($arrChapters as $rowChapter) {
+            ++$index_outer;
+
+            $chapterId = $rowChapter['id'];
+            $chapterTitle = $rowChapter['title'];
+            $chapterNumber = $rowChapter['number'];
 
             $objPhpWord->setValue('volume_#'.$index_outer, $this->translator->trans('MSC.mathbuch_volumes.'.$volume, [], 'contao_default'), 1);
-            $objPhpWord->setValue('chapter_#'.$index_outer, $chapter, 1);
+            $objPhpWord->setValue('chapter_#'.$index_outer, $chapterNumber, 1);
             $objPhpWord->setValue('chapter_title_#'.$index_outer, $chapterTitle, 1);
             $objPhpWord->setValue('level_ah_#'.$index_outer, $this->translator->trans('MSC.ah_level.'.$level, [], 'contao_default'), 1);
 
             // Load objectives of the current chapter from database
-            $arrObjectives = $this->getObjectives($volume, $chapter, $level);
-
-            if (empty($arrObjectives)) {
-                throw new \LogicException(sprintf('This point should never be reached. We do not clone a page, if a chapter has no objectives. Volume: %s Chapter: %s', $volume, $chapter));
-            }
-
+            $arrObjectives = $this->getObjectives($chapterId, $level);
+            
             $arrBasicObjectives = [];
             $arrExtendedObjectives = [];
 
@@ -126,14 +124,31 @@ readonly class DocxGenerator
     /**
      * @throws Exception
      */
-    private function getChapters(string $volume, string $level): array
+    private function getChapters(string $volume): array
     {
         $qb = $this->connection->createQueryBuilder();
 
-        $qb->select('chapter')
-            ->from('tl_mathbuch_learning_objectives', 't')
+        $qb->select('t.*')
+            ->from('tl_mathbuch_chapters', 't')
             ->where('t.volume = :volume')
             ->setParameter('volume', $volume)
+            ->orderBy('t.number')
+        ;
+
+        return $qb->fetchAllAssociative();
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getObjectives(int $chapterId, string $level): array
+    {
+        $qb = $this->connection->createQueryBuilder();
+
+        $qb->select('*')
+            ->from('tl_mathbuch_learning_objectives', 't')
+            ->where('t.belongs_to_chapter = :belongs_to_chapter')
+            ->setParameter('belongs_to_chapter', $chapterId)
         ;
 
         if (MathbuchAhLevel::AH_BASIC === $level) {
@@ -142,35 +157,6 @@ readonly class DocxGenerator
             $qb->andWhere('t.level_plus = "1" OR t.extended_objective_plus = "1"');
         }
 
-        $qb->groupBy('t.chapter');
-        $qb->orderBy('t.chapter');
-
-        return $qb->fetchFirstColumn();
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function getObjectives(string $volume, int $chapter, string $level): array
-    {
-        $qb = $this->connection->createQueryBuilder();
-
-        $qb->select('*')
-            ->from('tl_mathbuch_learning_objectives', 't')
-            ->where('t.volume = :volume')
-            ->andWhere('t.chapter = :chapter')
-            ->setParameter('volume', $volume)
-            ->setParameter('chapter', $chapter)
-    ;
-
-        if (MathbuchAhLevel::AH_BASIC === $level) {
-            $qb->andWhere('t.level_basic = "1" OR t.extended_objective_basic = "1"');
-        } elseif (MathbuchAhLevel::AH_PLUS === $level) {
-            $qb->andWhere('t.level_plus = "1" OR t.extended_objective_plus = "1"');
-        }
-
-        $qb->orderBy('t.volume', 'ASC');
-        $qb->orderBy('t.chapter', 'ASC');
         $qb->addOrderBy('t.id', 'ASC');
         $qb->addOrderBy('t.level_basic', 'ASC');
         $qb->addOrderBy('t.level_plus', 'ASC');

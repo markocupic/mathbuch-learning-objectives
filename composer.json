@@ -1,11 +1,10 @@
 {
     "name": "markocupic/mathbuch-learning-objectives",
-    "description": "Lernziele als Worddokument herunterladen",
+    "description": "Kompetenzen als Worddokument herunterladen",
     "keywords": [
-        "contao",
-        "bundle",
-        "tag 3",
-        "tag 4"
+        "contao bundle",
+        "backend extension",
+        "mathbuch kompetenzen"
     ],
     "type": "contao-bundle",
     "license": "GPL-3.0-or-later",

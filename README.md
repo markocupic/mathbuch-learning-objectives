@@ -1,5 +1,7 @@
-![Alt text](docs/logo.png?raw=true "logo")
+<img src="docs/logo.png" width="150">
 
 
-# Welcome to mathbuch-learning-objectives
-This bundle is still under construction.
+# Kompetenzen mathbuch
+Contao Modul, um sich die mathbuch Kompetenzen als Worddatei herunterzuladen-
+
+![Alt text](docs/docx.png?raw=true "mathbuch Kompetenzen")

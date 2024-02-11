@@ -13,19 +13,17 @@ declare(strict_types=1);
  */
 
 use Markocupic\MathbuchLearningObjectives\Controller\MathbuchObjectiveDocxExportController;
-use Markocupic\MathbuchLearningObjectives\Model\MathbuchLearningObjectivesModel;
 use Markocupic\MathbuchLearningObjectives\Model\MathbuchChaptersModel;
+use Markocupic\MathbuchLearningObjectives\Model\MathbuchLearningObjectivesModel;
 
 /*
  * Backend modules
  */
-
-
 $GLOBALS['BE_MOD'][MathbuchObjectiveDocxExportController::BACKEND_MODULE_CATEGORY]['mathbuch_chapters'] = [
     'tables' => ['tl_mathbuch_chapters'],
 ];
 
-$GLOBALS['BE_MOD'][MathbuchObjectiveDocxExportController::BACKEND_MODULE_CATEGORY]['mathbuch_lernziele'] = [
+$GLOBALS['BE_MOD'][MathbuchObjectiveDocxExportController::BACKEND_MODULE_CATEGORY]['mathbuch_learning_objectives'] = [
     'tables' => ['tl_mathbuch_learning_objectives'],
 ];
 

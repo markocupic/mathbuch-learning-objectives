@@ -16,21 +16,20 @@ namespace Markocupic\MathbuchLearningObjectives\DataContainer;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsCallback;
 use Contao\DataContainer;
+use Doctrine\DBAL\Connection;
 use Symfony\Bundle\SecurityBundle\Security;
 
-readonly class MathbuchLearningObjectives
+readonly class MathbuchChapters
 {
     public function __construct(
         private Security $security,
     ) {
     }
 
-
-
-    #[AsCallback(table: 'tl_mathbuch_learning_objectives', target: 'config.onload', priority: 100)]
+    #[AsCallback(table: 'tl_mathbuch_chapters', target: 'config.onload', priority: 100)]
     public function onload(DataContainer $dc): void
     {
-        $t = 'tl_mathbuch_learning_objectives';
+        $t = 'tl_mathbuch_chapters';
 
         if ($this->security->isGranted('ROLE_ADMIN')) {
             unset(

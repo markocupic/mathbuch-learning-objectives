@@ -20,7 +20,7 @@ use Markocupic\MathbuchLearningObjectives\Config\MathbuchVolume;
  * Table tl_mathbuch_chapters
  */
 $GLOBALS['TL_DCA']['tl_mathbuch_chapters'] = [
-    'config'      => [
+    'config'   => [
         'dataContainer'    => DC_Table::class,
         'enableVersioning' => true,
         'closed'           => true,
@@ -35,7 +35,7 @@ $GLOBALS['TL_DCA']['tl_mathbuch_chapters'] = [
             ],
         ],
     ],
-    'list'        => [
+    'list'     => [
         'sorting'           => [
             'mode'        => DataContainer::MODE_SORTABLE,
             'fields'      => ['volume'],
@@ -43,8 +43,8 @@ $GLOBALS['TL_DCA']['tl_mathbuch_chapters'] = [
             'panelLayout' => 'filter;sort,search,limit',
         ],
         'label'             => [
-            'fields' => ['volume', 'alias', 'title'],
-            'format' => '%s | %s | %s',
+            'fields' => ['volume', 'number', 'alias', 'title'],
+            'format' => '%s | LU %d | %s | %s',
         ],
         'global_operations' => [
             'all' => [
@@ -74,21 +74,17 @@ $GLOBALS['TL_DCA']['tl_mathbuch_chapters'] = [
             ],
         ],
     ],
-    'palettes'    => [
-        '__selector__' => ['addSubpalette'],
-        'default'      => '{basic_legend},alias,title,volume',
+    'palettes' => [
+        'default' => '{basic_legend},alias,volume,number,title',
     ],
-    'subpalettes' => [
-        'addSubpalette' => 'textareaField',
-    ],
-    'fields'      => [
-        'id'                       => [
+    'fields'   => [
+        'id'     => [
             'sql' => "int(10) unsigned NOT NULL auto_increment",
         ],
-        'tstamp'                   => [
+        'tstamp' => [
             'sql' => "int(10) unsigned NOT NULL default '0'",
         ],
-        'alias'                   => [
+        'alias'  => [
             'inputType' => 'text',
             'exclude'   => true,
             'search'    => true,
@@ -98,7 +94,7 @@ $GLOBALS['TL_DCA']['tl_mathbuch_chapters'] = [
             'eval'      => ['mandatory' => true, 'maxlength' => 13, 'tl_class' => 'w50'],
             'sql'       => "varchar(13) NOT NULL default ''",
         ],
-        'title'                  => [
+        'title'  => [
             'inputType' => 'text',
             'exclude'   => true,
             'search'    => true,
@@ -107,7 +103,18 @@ $GLOBALS['TL_DCA']['tl_mathbuch_chapters'] = [
             'eval'      => ['mandatory' => true, 'maxlength' => 512, 'tl_class' => 'w50'],
             'sql'       => "varchar(512) NOT NULL default ''",
         ],
-        'volume'              => [
+        'number' => [
+            'inputType' => 'select',
+            'exclude'   => true,
+            'search'    => true,
+            'filter'    => true,
+            'sorting'   => true,
+            'options'   => range(1, 32),
+            'flag'      => DataContainer::SORT_INITIAL_LETTER_ASC,
+            'eval'      => ['mandatory' => true, 'maxlength' => 2, 'tl_class' => 'w50'],
+            'sql'       => "integer(2) NOT NULL default 0",
+        ],
+        'volume' => [
             'inputType' => 'select',
             'exclude'   => true,
             'search'    => true,

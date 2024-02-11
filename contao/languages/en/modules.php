@@ -19,5 +19,5 @@ use Markocupic\MathbuchLearningObjectives\Controller\MathbuchObjectiveDocxExport
  */
 $GLOBALS['TL_LANG']['MOD']['mathbuch'] = 'Mathbuch';
 $GLOBALS['TL_LANG']['MOD']['mathbuch_chapters'] = ['Lernumgebungen bearbeiten', 'Mathbuch Lernumgebungen bearbeiten.'];
-$GLOBALS['TL_LANG']['MOD']['mathbuch_lernziele'] = ['Kompetenzen bearbeiten', 'Mathbuch Kompetenzen bearbeiten.'];
+$GLOBALS['TL_LANG']['MOD']['mathbuch_learning_objectives'] = ['Kompetenzen bearbeiten', 'Mathbuch Kompetenzen bearbeiten.'];
 $GLOBALS['TL_LANG']['MOD'][MathbuchObjectiveDocxExportController::BACKEND_MODULE_TYPE] = ['Kompetenzen exportieren', 'Mathbuch Kompetenzen exportieren'];

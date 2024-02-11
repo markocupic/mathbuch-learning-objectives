@@ -38,13 +38,13 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
     'list'        => [
         'sorting'           => [
             'mode'        => DataContainer::MODE_SORTABLE,
-            'fields'      => ['volume'],
+            'fields'      => ['volume ASC ', 'belongs_to_chapter', 'id'],
             'flag'        => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;sort,search,limit',
         ],
         'label'             => [
-            'fields' => ['volume', 'chapter', 'level_basic', 'level_plus', 'extended_objective_basic', 'extended_objective_plus', 'objective_text'],
-            'format' => '%s | LU%s | %s | %s | %s | %s | %s',
+            'fields' => ['volume', 'belongs_to_chapter', 'level_basic', 'level_plus', 'extended_objective_basic', 'extended_objective_plus', 'objective_text'],
+            'format' => '%s | %s | %s | %s | %s | %s | %s',
         ],
         'global_operations' => [
             'all' => [
@@ -100,23 +100,15 @@ $GLOBALS['TL_DCA']['tl_mathbuch_learning_objectives'] = [
             'eval'      => ['mandatory' => true, 'maxlength' => 6, 'tl_class' => 'w50'],
             'sql'       => "varchar(32) NOT NULL default ''",
         ],
-        'chapter'                  => [
-            'inputType' => 'select',
-            'exclude'   => true,
-            'search'    => true,
-            'filter'    => true,
-            'sorting'   => true,
-            'options'   => range(1, 32),
-            'flag'      => DataContainer::SORT_INITIAL_LETTER_ASC,
-            'eval'      => ['mandatory' => true, 'maxlength' => 2, 'tl_class' => 'w50'],
-            'sql'       => "integer(2) NOT NULL default 0",
-        ],
         'belongs_to_chapter'       => [
             'exclude'    => true,
             'search'     => true,
+            'filter'     => true,
+            'sorting'    => true,
+            'flag'       => DataContainer::SORT_ASC,
             'inputType'  => 'select',
             'foreignKey' => 'tl_mathbuch_chapters.alias',
-            'eval'       => ['includeBlankOption' => true, 'tl_class' => 'w50'],
+            'eval'       => ['mandatory' => true, 'tl_class' => 'w50'],
             'sql'        => "int(10) unsigned NOT NULL default '0'",
             'relation'   => ['type' => 'hasOne', 'load' => 'lazy'],
         ],

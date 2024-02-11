@@ -21,8 +21,8 @@
         "source": "https://github.com/markocupic/mathbuch-learning-objectives"
     },
     "require": {
-        "php": "^8.1",
-        "contao/core-bundle": "^4.13 || ^5.0",
+        "php": "^8.2",
+        "contao/core-bundle": "^5.0",
         "markocupic/phpoffice-bundle": "^1.5",
         "codefog/contao-haste": "^5.1"
     },
@@ -47,6 +47,5 @@
     "scripts": {
         "cs-fixer": "@php tools/ecs/vendor/bin/ecs check config/ contao/ src/ templates/ tests/ --config tools/ecs/config.php --fix --ansi",
         "unit-tests": "@php tools/phpunit/vendor/bin/phpunit -c tools/phpunit/phpunit.xml.dist"
-    },
-    "version": "1.0"
+    }
 }
